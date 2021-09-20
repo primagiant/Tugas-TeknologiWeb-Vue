@@ -21,9 +21,13 @@ const routes = [
     component: () => import('../views/About.vue')
   },
   {
-    path: '/contact',
-    name: 'Contact',
-    component: () => import('../views/Contact.vue')
+    path: '/404',
+    name: '404',
+    component: () => import('../views/404.vue')
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: '/404',
   },
 ]
 
