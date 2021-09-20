@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "namaType": "Makanan"
+    },
+    {
+        "id": 2,
+        "namaType": "Minuman"
+    },
+    {
+        "id": 3,
+        "namaType": "Peralatan Mandi"
+    }
+]
