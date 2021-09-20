@@ -4,18 +4,19 @@
             <h1 class="text-2xl md:text-3xl">Kasir App</h1>
         </div>
 
-        <div class="grid grid-rows-auto md:grid-cols-2 gap-4 mx-8 bg-indigo-50 shadow-md rounded-xl text-sm">
+        <div class="grid grid-cols-1 lg:grid-cols-3 mx-8 bg-indigo-50 shadow-md rounded-xl text-sm">
             <!-- Input Items -->
             <div class="w-full p-6">
                 <p class="my-2 text-lg font-bold">Input Items</p>
 
-                <form class="mb-3">
+                <form @submit.prevent="addNewList" class="mb-3">
                     <!-- Kode Barang -->
                     <div class="mb-2">
                         <label class="block text-sm font-medium text-gray-700" for="namaBarang">Kode Barang</label>
                         <div class="mt-1">
-                            <input type="text" id="namaBarang" placeholder="Masukkan kode barang" />
+                            <input v-model="input.kodeBarang" type="text" placeholder="Masukkan kode barang" />
                             <span class="ml-2 text-xs opacity-80">Contoh: AM01</span>
+                            <span class="ml-2 text-xs opacity-80">Contoh: {{ input.kodeBarang }}</span>
                         </div>
                     </div>
                     <!-- End Kode Barang -->
@@ -24,7 +25,7 @@
                     <div class="mb-2">
                         <label class="block text-sm font-medium text-gray-700" for="namaBarang">Nama Barang</label>
                         <div class="mt-1">
-                            <input type="text" id="namaBarang" placeholder="Masukkan nama barang" />
+                            <input v-model="input.namaBarang" type="text" placeholder="Masukkan nama barang" />
                             <span class="ml-2 text-xs opacity-80">Contoh: Aqua</span>
                         </div>
                     </div>
@@ -34,64 +35,66 @@
                     <div class="mb-2">
                         <label class="block text-sm font-medium text-gray-700" for="namaBarang">Type Barang</label>
                         <div class="mt-1">
-                            <select name="type" id="type">
-                                <option hidden>Pilih Type</option>
+                            <select v-model="input.typeId" name="type" id="type">
                                 <option v-for="type in types" :key="type.id" :value="type.id">{{ type.namaType }}</option>
                             </select>
                         </div>
                     </div>
                     <!-- End Type barang -->
 
-                    <!-- Harga Barang dan Quantity-->
-                    <div class="mb-2 flex gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="namaBarang">Harga Barang</label>
-                            <div class="mt-1">
-                                <input type="number" id="namaBarang" placeholder="Masukkan harga barang" />
-                                <span class="ml-2 text-xs opacity-80">Contoh: 5000</span>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700" for="namaBarang">Quantity</label>
-                            <div class="mt-1 flex items-center justify-center gap-3">
-                                <button class="px-4 py-2 rounded-full bg-red-600 text-white hover:bg-red-500" @click.prevent="handleMinButton" type="button">-</button>
-                                <input class="w-12 text-center" type="text" id="namaBarang" :value="qtyVal" />
-                                <button class="px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-500" @click.prevent="handlePlusButton" type="button">+</button>
-                            </div>
+                    <!-- Harga Barang-->
+                    <div class="mb-2">
+                        <label class="block text-sm font-medium text-gray-700" for="namaBarang">Harga Barang</label>
+                        <div class="mt-1">
+                            <input v-model="input.harga" type="number" placeholder="Masukkan harga barang" />
+                            <span class="ml-2 text-xs opacity-80">Contoh: 5000</span>
                         </div>
                     </div>
-                    <!-- End Harga Barang dan Quantity -->
+                    <!-- End Harga Barang -->
 
-                    <button type="button" class="py-2 px-3 rounded-md bg-yellow-500 text-white hover:bg-yellow-400">Save</button>
+                    <button class="py-2 px-3 rounded-md bg-yellow-500 text-white hover:bg-yellow-400">Save</button>
                 </form>
             </div>
             <!-- End Input Items -->
 
-            <hr class="md:hidden" />
-
             <!-- List Items -->
-            <div class="w-full p-6">
+            <div class="w-full p-6 col-span-2">
                 <p class="my-2 text-lg font-bold">List Items</p>
-                <table class="table-auto shadow-lg bg-white w-full">
-                    <thead>
-                        <tr>
-                            <th class="bg-blue-100 border text-left px-6 py-2">Nama Barang</th>
-                            <th class="bg-blue-100 border text-left px-6 py-2">Tipe</th>
-                            <th class="bg-blue-100 border text-left px-6 py-2">Kode</th>
-                            <th class="bg-blue-100 border text-left px-6 py-2">Harga</th>
-                            <th class="bg-blue-100 border text-left px-6 py-2">Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border px-6 py-2">Nama Barang</td>
-                            <td class="border px-6 py-2">Tipe</td>
-                            <td class="border px-6 py-2">Kode</td>
-                            <td class="border px-6 py-2">Harga</td>
-                            <td class="border px-6 py-2">Qty</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="w-full overflow-x-auto">
+                    <table class="table-auto shadow-lg bg-white">
+                        <thead>
+                            <tr>
+                                <th class="bg-blue-100 border text-center px-6 py-2">Kode</th>
+                                <th class="bg-blue-100 border text-center px-6 py-2">Nama Barang</th>
+                                <th class="bg-blue-100 border text-center px-6 py-2">Type</th>
+                                <th class="bg-blue-100 border text-center px-6 py-2">Harga</th>
+                                <th class="bg-blue-100 border text-center px-6 py-2">Quantity</th>
+                                <th class="bg-blue-100 border text-center px-6 py-2">Total Harga</th>
+                                <th class="bg-blue-100 border text-center px-6 py-2">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(list, index) in lists" :key="index">
+                                <td class="border text-center px-6 py-2">{{ list.kodeBarang }}</td>
+                                <td class="border text-center px-6 py-2">{{ list.namaBarang }}</td>
+                                <td class="border text-center px-6 py-2">{{ getType(list.typeId) }}</td>
+                                <td class="border text-center px-6 py-2">{{ list.harga }}</td>
+                                <td class="border text-center px-6 py-2 w-28 flex items-center justify-center">
+                                    <button class="px-2 py-1 rounded-full bg-red-600 text-white hover:bg-red-500" @click="handleMinButton(list.kodeBarang)" type="button">-</button>
+                                    <span class="mx-2">
+                                        {{ list.qtyVal }}
+                                    </span>
+                                    <button class="px-2 py-1 rounded-full bg-blue-600 text-white hover:bg-blue-500" @click="handlePlusButton(list.kodeBarang)" type="button">+</button>
+                                </td>
+                                <td class="border text-center px-6 py-2">{{ getHarga(list.kodeBarang) }}</td>
+                                <td class="border text-center px-6 py-2 w-32 flex items-center justify-center">
+                                    <button class="px-2 py-1 rounded-full bg-red-500 text-white hover:bg-red-600" @click="lists.splice(index, 1)" type="button">Hapus</button>
+                                    <button class="px-2 py-1 rounded-full bg-yellow-400 text-white hover:bg-yellow-500" @click="handleEditButton(index, list)" type="button">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!-- End List Items -->
         </div>
@@ -106,19 +109,68 @@ export default {
     data() {
         return {
             types: typesData,
-            qtyVal: 1,
             lists: [],
+            input: {
+                qtyVal: 1,
+            },
+            tmp: null,
         };
     },
     methods: {
-        handlePlusButton: function () {
-            this.qtyVal++;
+        getList: function (id) {
+            let res = this.lists.filter((e) => {
+                if (e.kodeBarang == id) return e;
+            });
+            return res;
         },
-        handleMinButton: function () {
-            if (this.qtyVal != 0) this.qtyVal--;
+        getType: function (id) {
+            let res = this.types.filter(function (e) {
+                if (e.id == id) return e;
+            });
+            return res[0].namaType;
         },
-        handleSaveButton: function () {
-            return;
+        getHarga: function (id) {
+            let res = this.getList(id);
+            return res[0].qtyVal * res[0].harga;
+        },
+        handlePlusButton: function (id) {
+            this.getList(id)[0].qtyVal++;
+        },
+        handleMinButton: function (id) {
+            if (this.getList(id)[0].qtyVal != 1) this.getList(id)[0].qtyVal--;
+        },
+        handleEditButton: function (index, list) {
+            this.tmp = index;
+            this.input.kodeBarang = list.kodeBarang;
+            this.input.namaBarang = list.namaBarang;
+            this.input.typeId = list.typeId;
+            this.input.harga = list.harga;
+            this.input.qtyVal = list.qtyVal;
+        },
+        addNewList: function () {
+            if (this.tmp != null) {
+                Object.assign(this.lists[this.tmp], {
+                    kodeBarang: this.input.kodeBarang,
+                    namaBarang: this.input.namaBarang,
+                    typeId: this.input.typeId,
+                    harga: this.input.harga,
+                    qtyVal: this.input.qtyVal,
+                });
+            } else {
+                this.lists.push({
+                    kodeBarang: this.input.kodeBarang,
+                    namaBarang: this.input.namaBarang,
+                    typeId: this.input.typeId,
+                    harga: this.input.harga,
+                    qtyVal: this.input.qtyVal,
+                });
+            }
+            this.input.kodeBarang = "";
+            this.input.namaBarang = "";
+            this.input.typeId = "";
+            this.input.harga = "";
+            this.input.qtyVal = 1;
+            this.tmp = null;
         },
     },
 };
