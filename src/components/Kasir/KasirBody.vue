@@ -16,7 +16,6 @@
                         <div class="mt-1">
                             <input v-model="input.kodeBarang" type="text" placeholder="Masukkan kode barang" />
                             <span class="ml-2 text-xs opacity-80">Contoh: AM01</span>
-                            <span class="ml-2 text-xs opacity-80">Contoh: {{ input.kodeBarang }}</span>
                         </div>
                     </div>
                     <!-- End Kode Barang -->
